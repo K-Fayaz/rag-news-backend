@@ -11,7 +11,7 @@ import { readFileSync } from "fs";
 const newsArticles = JSON.parse(readFileSync('./news_articles.json', 'utf8'));
 
 const main = async () => {
-    await qdrant.createCollection("newsArticles-2", {
+    await qdrant.createCollection("newsArticles", {
         vectors: {
           size: 1024,
           distance: "Cosine"
@@ -21,7 +21,7 @@ const main = async () => {
     let index = 1;
     for (let news of newsArticles) {
         const embedding = await createEmbedding(news.content);
-        await qdrant.upsert("newsArticles-2", {
+        await qdrant.upsert("newsArticles", {
             points: [
                 {
                     vector: embedding,

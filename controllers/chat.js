@@ -21,7 +21,7 @@ const newChatQuery = async (req,res) => {
 
         
         let queryVector = await createEmbedding(query);
-        const result = await qdrant.search("newsArticles-2", {
+        const result = await qdrant.search("newsArticles", {
             vector: queryVector,
             limit: 5
         });

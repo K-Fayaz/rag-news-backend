@@ -3,11 +3,17 @@ dotenv.config();
 import express from "express";
 import redisClient from "./redis/redisClient.js";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 const app = express();
 import "./helper/jinaHelper.js";
 
 // Routes
 import chatRoutes from "./routes/chat.js"
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +37,14 @@ app.get("/ping-redis", async (req, res) => {
 
 app.use('/api', chatRoutes);
 
-app.listen(8080, () => {
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
     console.log('listening');
 });
