@@ -32,7 +32,7 @@ const newChatQuery = async (req,res) => {
         history.push({ id: history.length + 1, sender: "bot", text:response, timestamp: formatTime() });
 
         await redisClient.set(redisKey, JSON.stringify(history));
-
+        await redisClient.expire(redisKey, 86400);
 
         return res.status(200).json({
             status: true,
