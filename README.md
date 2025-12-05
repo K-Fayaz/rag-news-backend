@@ -106,6 +106,13 @@ After saving updated history:
 ```js
 await redisClient.expire(redisKey, 86400);
 ```
+
+## DEMO
+https://drive.google.com/file/d/1SwE5udZZ7LYy9rqrhyvIjGNQTArvgOhV/view?usp=sharing
+
+## Code Walkthrough
+https://drive.google.com/file/d/1NNx6Om_ctVYRbsy2q12g3J3RaciOcv_c/view?usp=sharing
+
 `expire` sets a TTL of `86400` seconds (24 hours) on the session key
 `session:{sessionId}:history`. If the key already existed, the TTL is refreshed
 each time a chat turn is saved. Once expired, Redis automatically removes the
