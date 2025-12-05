@@ -36,6 +36,40 @@ node index.js
 ```
 The server listens on port `8080` by default.
 
+## Vector Database Setup (`scripts/`)
+
+Before running the server, you need to populate the Qdrant vector database with news articles. Two scripts must be run once to set up the vector database in the cloud:
+
+### 1. `scripts/scraper.js`
+Scrapes news articles from Reuters and saves them to `news_articles.json`.
+
+- Fetches article URLs from Reuters sitemap
+- Scrapes up to 50 articles (configurable via `maxArticles`)
+- Extracts title, content, description, and published date
+- Saves results to `news_articles.json` in the scripts directory
+
+**Run once:**
+```bash
+cd server/scripts
+node scraper.js
+```
+
+### 2. `scripts/jinaEmbedder.js`
+Reads `news_articles.json`, creates embeddings using Jina API, and uploads them to Qdrant.
+
+- Creates a Qdrant collection named `newsArticles` (1024-dimensional vectors, cosine distance)
+- Generates embeddings for each article's content using Jina
+- Upserts articles with their embeddings and metadata to Qdrant
+- Requires `news_articles.json` to exist (created by scraper.js)
+
+**Run once (after scraper.js):**
+```bash
+cd server/scripts
+node jinaEmbedder.js
+```
+
+**Note:** Both scripts require the same environment variables as the main server (Jina API key, Qdrant endpoint + API key). Ensure `server/.env` is configured before running.
+
 ## API Routes (prefix `/api`)
 - `POST /api/chat` → Start/continue a chat. Request body: `{ sessionId?, query }`.
 - `GET /api/history/:sessionId` → Fetch stored chat turns for a session.
