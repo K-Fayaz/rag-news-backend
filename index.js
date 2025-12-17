@@ -21,7 +21,7 @@ app.use(cors({
     origin:[
         'http://localhost:5173',
         'http://localhost:3000',
-        "https://rag-news-client.vercel.app/"
+        "https://rag-news-client.vercel.app"
     ]
 }));
 
