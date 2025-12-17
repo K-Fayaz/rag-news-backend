@@ -1,5 +1,6 @@
 import getPrompt from "../helper/prompts.js";
 import callLLM  from "../helper/LLMCalls.js";
+import { callAnthropic } from "../helper/LLMCalls.js";
 import { v4 as uuid } from "uuid";
 import redisClient from "../redis/redisClient.js";
 import { qdrant, createEmbedding } from "../helper/jinaHelper.js";
@@ -27,7 +28,7 @@ const newChatQuery = async (req,res) => {
         });
 
         let prompt = getPrompt(query, result);
-        let response = await callLLM(prompt);
+        let response = await callAnthropic(prompt,{});
 
         history.push({ id: history.length + 1, sender: "bot", text:response, timestamp: formatTime() });
 
