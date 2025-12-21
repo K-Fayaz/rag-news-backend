@@ -220,10 +220,12 @@ class ReutersScraper {
       const articles = await this.scrapeArticles(urls);
       
       // Step 3: Save to JSON file
-      await fs.writeFile(
-        'news_articles.json',
-        JSON.stringify(articles, null, 2)
-      );
+      // Only to use in DEV environment
+
+      // await fs.writeFile(
+      //   'news_articles.json',
+      //   JSON.stringify(articles, null, 2)
+      // );
       
       console.log('\n✓ Articles saved to news_articles.json');
       console.log(`Total articles: ${articles.length}`);
@@ -237,13 +239,5 @@ class ReutersScraper {
   }
 }
 
-async function main() {
-  const scraper = new ReutersScraper();
-  const articles = await scraper.fetchNewsArticles();
-  
-  console.log('\n--- Sample Article ---');
-  console.log('Title:', articles[0].title);
-  console.log('Content preview:', articles[0].content.substring(0, 200) + '...');
-}
 
-main().catch(console.error);
+export default ReutersScraper;

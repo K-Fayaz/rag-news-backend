@@ -7,10 +7,11 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 import { qdrant, createEmbedding } from "../helper/jinaHelper.js";
-import { readFileSync } from "fs";
-const newsArticles = JSON.parse(readFileSync('./news_articles.json', 'utf8'));
 
-const main = async () => {
+const pushEmbeddings = async (articles) => {
+    
+    await qdrant.deleteCollection("newsArticles");
+    
     await qdrant.createCollection("newsArticles", {
         vectors: {
           size: 1024,
@@ -19,7 +20,7 @@ const main = async () => {
     });
 
     let index = 1;
-    for (let news of newsArticles) {
+    for (let news of articles) {
         const embedding = await createEmbedding(news.content);
         await qdrant.upsert("newsArticles", {
             points: [
@@ -35,4 +36,4 @@ const main = async () => {
     }
 }
 
-main().catch(console.error);
+export default pushEmbeddings;

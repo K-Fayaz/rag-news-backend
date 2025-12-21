@@ -42,7 +42,7 @@ export async function callAnthropic(prompt, options = {}) {
             if (chunk.type === 'content_block_delta' && 
                 chunk.delta.type === 'text_delta') {
                 fullText += chunk.delta.text;
-                process.stdout.write(chunk.delta.text); // Real-time output
+                // process.stdout.write(chunk.delta.text); // Real-time output
             }
         }
 
