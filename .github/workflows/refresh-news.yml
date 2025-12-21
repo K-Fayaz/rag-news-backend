@@ -1,0 +1,29 @@
+name: Daily News Refresh
+
+on:
+  schedule:
+    - cron: "30 20 * * *" # every day at 2 AM ITC
+  workflow_dispatch: # allows manual run from GitHub UI
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run refresh job
+        env:
+          QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
+          QDRANT_ENDPOINT: ${{ secrets.QDRANT_ENDPOINT }}
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+        run: node actions/refreshArticles.js

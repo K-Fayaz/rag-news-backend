@@ -1,9 +1,7 @@
-// */5 * * * 
-import cron from 'node-cron';
 import ReutersScraper from '../scripts/scraper.js';
 import pushEmbeddings from '../scripts/jinaEmbedder.js';
 
-cron.schedule('*/30 * * * *', async () => {
+const main = async () => {
     console.log('Refreshing articles...');
 
     // Extract new articles in articles.json file
@@ -15,4 +13,14 @@ cron.schedule('*/30 * * * *', async () => {
     await pushEmbeddings(articles);
 
     console.log(`Refreshed ${articles.length} articles.`);
-});
+};
+
+
+main().then((result) => {
+    console.log(result);
+    process.exit(0);
+})
+.catch((error) => {
+    console.log(error);
+    process.exit(0);
+})

@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-import "./cron/refreshArticles.js";
 import redisClient from "./redis/redisClient.js";
 import cors from "cors";
 import path from "path";
