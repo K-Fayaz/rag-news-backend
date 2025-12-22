@@ -1,5 +1,8 @@
 # AI News Assistant – Backend
 
+## Live
+https://rag-news-client.vercel.app/
+
 ## Architecture
 ![Architecture Diagram](docs/architecture.png)
 
